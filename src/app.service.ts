@@ -1,27 +1,36 @@
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 //import { Cache } from 'cache-manager';
 import Redis from 'ioredis';
+import { PrismaService } from './prisma/prisma.service';
+import { createClient } from 'redis';
+
 @Injectable()
 export class AppService {
   //constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
-  async getHello() {
-    // await this.cacheManager.set('key5', 'value3', { ttl: 20000 });
-    // const val = await this.cacheManager.get('key');
+  constructor(private prisma: PrismaService) {}
 
-    const redis = new Redis(
-      'redis://default:KeISWjEGQQSTgzYIXdoLpq4U9cKzjqBx@redis-13748.c61.us-east-1-3.ec2.cloud.redislabs.com:13748',
-    );
+  async getAllProduct(str = 'all') {
+    const redis = createClient({
+      url: 'redis://default:KeISWjEGQQSTgzYIXdoLpq4U9cKzjqBx@redis-13748.c61.us-east-1-3.ec2.cloud.redislabs.com:13748',
+      socket: {
+        connectTimeout: 50000,
+      },
+    });
+    await redis.connect();
 
-    await redis.set('key20-', 'value2');
-
-    // if (val)
-    //{
-    return {
-      // data: val,
-      FromRedis: 'this is loaded from redis cache',
-    };
-    // }
-    //  return 'Hello World!';
+    try {
+      const resSearch = await redis.json.GET(str);
+      if (resSearch) {
+        return resSearch;
+      }
+      // const resSearch = await redis.get(str);
+      const product = await this.prisma.product.findMany({});
+      await redis.json.SET(str, '$', product);
+      await redis.disconnect();
+      return product;
+    } catch (error) {
+      return error;
+    }
   }
 }

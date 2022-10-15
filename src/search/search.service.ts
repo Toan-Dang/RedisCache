@@ -65,7 +65,7 @@ export class SearchService {
       await client.disconnect();
       return product;
     } catch (error) {
-      return 'error';
+      return error;
     }
   }
 }

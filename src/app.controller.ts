@@ -13,10 +13,10 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  @CacheKey('appcontrollers')
-  @CacheTTL(10000)
-  getHello() {
-    return this.appService.getHello();
+  //@CacheKey('appcontrollers')
+  //@CacheTTL(10000)
+  getAllProduct() {
+    return this.appService.getAllProduct();
   }
 
   fakeModel = {
