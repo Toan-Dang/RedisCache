@@ -1,0 +1,307 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type OrderDetail {
+  Image       String
+  Price       BigInt
+  ProductId   String
+  ProductName String
+  Quantity    BigInt
+  Rate        Boolean
+  Total       BigInt
+}
+
+type ProductBattery {
+  Capacity   Int
+  /// Multiple data types found: Float: 2%, Int: 98% out of 300 sampled entries
+  Charge     Int
+  /// Multiple data types found: String: 42.3%, Array(String): 57.7% out of 300 sampled entries
+  Technology String
+  Type       String
+}
+
+type ProductCam {
+  BCamRes String?
+  FCamRes String
+  Flash   String?
+  /// Multiple data types found: String: 0.4%, Array(String): 99.6% out of 257 sampled entries
+  Special Json?
+  /// Multiple data types found: String: 17.9%, Array(String): 82.1% out of 257 sampled entries
+  Video   Json?
+  Webcam  String?
+}
+
+type ProductConn {
+  /// Multiple data types found: String: 21.7%, Array(String): 78.3% out of 300 sampled entries
+  Blutooth     Json
+  /// Multiple data types found: String: 17.7%, Array(String): 82.3% out of 300 sampled entries
+  GPS          Json
+  /// Multiple data types found: String: 63.2%, Array(String): 36.8% out of 242 sampled entries
+  Other        Json?
+  /// Multiple data types found: String: 88.2%, Array(String): 11.8% out of 287 sampled entries
+  PhoneJack    Json?
+  Sim          String?
+  Special      String?
+  /// Multiple data types found: String: 24%, Array(String): 76% out of 300 sampled entries
+  Wifi         Json
+  WirelessCard String?
+}
+
+type ProductCpu {
+  /// Multiple data types found: String: 7%, Float: 53%, Int: 40% out of 300 sampled entries
+  BaseSpeed Json
+  Cache     Int?
+  Core      Int?
+  Genth     String
+  /// Multiple data types found: String: 7%, Float: 82%, Int: 11% out of 300 sampled entries
+  MaxSpeed  Json
+  Name      String
+  /// Multiple data types found: String: 7%, Int: 93% out of 300 sampled entries
+  Thread    Json
+}
+
+type ProductGraphic {
+  Core    String
+  GPUType String?
+  NameGPU String
+}
+
+type ProductOs {
+  Name    String
+  Version String?
+}
+
+type ProductRam {
+  Capacity Int
+  MaxRam   Int
+  Name     String
+  Ram      String?
+  Slots    Int
+  Speed    Int
+  Type     String?
+}
+
+type ProductRom {
+  Capacity Int
+  MaxRom   Int
+  Type     String
+}
+
+type ProductScreen {
+  HZ         Int
+  MaxBright  String
+  Resolution String
+  Size       String
+  Special    String
+  /// Multiple data types found: String: 88.7%, Array(String): 11.3% out of 300 sampled entries
+  Technology Json
+}
+
+type ProductSound {
+  /// Multiple data types found: String: 19.9%, Array(String): 80.1% out of 297 sampled entries
+  Technology Json?
+}
+
+type ProductStruct {
+  Design    String
+  High      String
+  Long      String
+  Martirial String
+  Weight    String
+  Wide      String
+}
+
+model Cart {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  OrderCart   DateTime @db.Date
+  Picture     String
+  Price       BigInt
+  ProductId   String
+  ProductName String
+  Quantity    BigInt
+  Status      String
+  Total       BigInt
+  UserId      String
+}
+
+model Category {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  Active       Int
+  CategoryName String
+  Picture      String
+  Type         String
+}
+
+model Content {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model Feedback {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  Comment     String
+  FeedbackDay DateTime @db.Date
+  ProductId   String
+  Rate        Float
+  isShow      Boolean
+  productname String?
+  userid      String
+  username    String?
+}
+
+model Image {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  ProductId String
+  img       String
+}
+
+model Inventory {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  Adress      String
+  City        String
+  Hotline     String
+  InventoryId Int
+  IsActive    Boolean
+  Latitude    String
+  Longitude   String
+  Name        String
+  State       String
+  TotalAmount Int
+}
+
+model Order {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  Address        String
+  CustomerId     String
+  Deleted        Boolean
+  Detail         OrderDetail[]
+  OrderDay       DateTime      @db.Date
+  Paid           BigInt
+  Status         String
+  TransactStatus String
+}
+
+model Product {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  Battery       ProductBattery
+  CPU           ProductCpu
+  Cam           ProductCam
+  CategoryName  String
+  Color         String
+  Conn          ProductConn
+  CurrentOrder  Int
+  Description   String
+  Graphic       ProductGraphic
+  IsDelete      Boolean
+  MSRP          Int
+  Note          String
+  OS            ProductOs
+  Picture       String
+  ProductDetail String
+  ProductId     Int
+  ProductName   String
+  Ram           ProductRam
+  RawPrice      Int
+  ReorderLevel  Int
+  Rom           ProductRom
+  Screen        ProductScreen
+  Sound         ProductSound
+  Special       String
+  Struct        ProductStruct
+  Type          String
+  UnitInOrder   Int
+  UnitPrice     Int
+  Version       String
+  /// Multiple data types found: Int: 88%, BigInt: 12% out of 300 sampled entries
+  View          Int
+  /// Multiple data types found: Int: 94%, BigInt: 6% out of 300 sampled entries
+  sold          Int
+}
+
+model ProductCrawl {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  CategoryName String
+  MSRP         String
+  Picture      String
+  ProductName  String
+  Type         String
+  UnitPrice    String
+  rate         String?
+  rating       String
+  review       String
+  url          String
+}
+
+model Roles {
+  id               String @id @default(auto()) @map("_id") @db.ObjectId
+  ConcurrencyStamp String
+  Id               String
+  Name             String
+  NormalizedName   String
+}
+
+model UserLogin {
+  id                  String @id @default(auto()) @map("_id") @db.ObjectId
+  LoginProvider       String
+  ProviderDisplayName String
+  ProviderKey         Float
+  UserId              String
+}
+
+model UserToken {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  LoginProvider String
+  Name          String
+  UserId        String
+  Value         String
+}
+
+model Users {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  Birthday     String?
+  Email        String
+  FullName     String?
+  PasswordHash String
+  PhoneNumber  String?
+  UserName     String
+  avaname      String?
+}
+
+model UsersAddress {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  Address     String
+  Name        String
+  Note        String
+  PhoneNumber String
+  Pick        Boolean
+  UserId      String
+}
+
+model Voucher {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  Code          Int
+  IsActive      Boolean
+  VoucherDetail Int
+  VoucherID     Int
+  VoucherName   String
+  loaigiam      Int
+  number        Int
+  sotientoida   Int
+}
+
+model contact {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  phone_number String
+}
+
+model game {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  score    BigInt
+  username String
+}
