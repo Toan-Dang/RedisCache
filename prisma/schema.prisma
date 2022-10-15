@@ -187,41 +187,47 @@ model Order {
 }
 
 model Product {
-  id            String         @id @default(auto()) @map("_id") @db.ObjectId
-  Battery       ProductBattery
-  CPU           ProductCpu
-  Cam           ProductCam
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  /// Multiple data types found: String: 5.3%, ProductBattery: 94.7% out of 337 sampled entries
+  Battery       Json?
+  /// Multiple data types found: String: 6.5%, ProductCpu: 93.5% out of 337 sampled entries
+  CPU           Json?
+  /// Multiple data types found: String: 6.5%, ProductCam: 93.5% out of 337 sampled entries
+  Cam           Json?
   CategoryName  String
   Color         String
-  Conn          ProductConn
-  CurrentOrder  Int
-  Description   String
-  Graphic       ProductGraphic
+  Conn          ProductConn?
+  CurrentOrder  Int?
+  Description   String?
+  /// Multiple data types found: String: 6.5%, ProductGraphic: 93.5% out of 337 sampled entries
+  Graphic       Json?
   IsDelete      Boolean
   MSRP          Int
-  Note          String
-  OS            ProductOs
-  Picture       String
-  ProductDetail String
-  ProductId     Int
+  Note          String?
+  /// Multiple data types found: String: 1.2%, ProductOs: 98.8% out of 337 sampled entries
+  OS            Json?
+  Picture       String?
+  ProductDetail String?
+  ProductId     Int?
   ProductName   String
-  Ram           ProductRam
-  RawPrice      Int
-  ReorderLevel  Int
-  Rom           ProductRom
-  Screen        ProductScreen
-  Sound         ProductSound
-  Special       String
-  Struct        ProductStruct
+  Ram           ProductRam?
+  RawPrice      Int?
+  ReorderLevel  Int?
+  Rom           ProductRom?
+  /// Multiple data types found: String: 6.5%, ProductScreen: 93.5% out of 337 sampled entries
+  Screen        Json?
+  /// Multiple data types found: String: 8.6%, ProductSound: 91.4% out of 337 sampled entries
+  Sound         Json?
+  Special       String?
+  Struct        ProductStruct?
   Type          String
-  UnitInOrder   Int
+  UnitInOrder   Int?
   UnitPrice     Int
   Version       String
-  /// Multiple data types found: Int: 88%, BigInt: 12% out of 300 sampled entries
   View          Int
-  /// Multiple data types found: Int: 94%, BigInt: 6% out of 300 sampled entries
   sold          Int
 }
+
 
 model ProductCrawl {
   id           String  @id @default(auto()) @map("_id") @db.ObjectId
