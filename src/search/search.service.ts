@@ -16,7 +16,7 @@ export class SearchService {
     const client = createClient({
       url: 'redis://default:KeISWjEGQQSTgzYIXdoLpq4U9cKzjqBx@redis-13748.c61.us-east-1-3.ec2.cloud.redislabs.com:13748',
       socket: {
-        connectTimeout: 10000,
+        connectTimeout: 50000,
       },
     });
     //const client = createClient({ url: 'redis://localhost:6379' });
