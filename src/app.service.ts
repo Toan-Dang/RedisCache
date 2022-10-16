@@ -22,6 +22,7 @@ export class AppService {
     try {
       const resSearch = await redis.json.GET(str);
       if (resSearch) {
+        await redis.disconnect();
         return resSearch;
       }
       // const resSearch = await redis.get(str);
