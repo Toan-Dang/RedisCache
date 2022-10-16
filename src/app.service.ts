@@ -1,8 +1,8 @@
-import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
+import { redisClient } from './constanst';
+import {  Injectable } from '@nestjs/common';
 //import { Cache } from 'cache-manager';
 import Redis from 'ioredis';
 import { PrismaService } from './prisma/prisma.service';
-import { createClient } from 'redis';
 
 @Injectable()
 export class AppService {
@@ -11,12 +11,7 @@ export class AppService {
   constructor(private prisma: PrismaService) {}
 
   async getAllProduct(str = 'all') {
-    const redis = createClient({
-      url: 'redis://default:wUpy2mKz0vCWHKYCJVcaaU4Clo8yDyQX@redis-19970.c9.us-east-1-2.ec2.cloud.redislabs.com:19970',
-      socket: {
-        connectTimeout: 50000,
-      },
-    });
+    const redis = redisClient;
     await redis.connect();
 
     try {

@@ -1,9 +1,6 @@
 import { PrismaService } from './../prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { CreateSearchDto } from './dto/create-search.dto';
-import { UpdateSearchDto } from './dto/update-search.dto';
-import Redis from 'ioredis';
-import { createClient } from 'redis';
+import { redisClient } from 'src/constanst';
 
 @Injectable()
 export class SearchService {
@@ -13,13 +10,7 @@ export class SearchService {
     // const redis = new Redis(
     //   'redis://default:KeISWjEGQQSTgzYIXdoLpq4U9cKzjqBx@redis-13748.c61.us-east-1-3.ec2.cloud.redislabs.com:13748',
     // );
-    const client = createClient({
-      url: 'redis://default:wUpy2mKz0vCWHKYCJVcaaU4Clo8yDyQX@redis-19970.c9.us-east-1-2.ec2.cloud.redislabs.com:19970',
-      socket: {
-        connectTimeout: 50000,
-      },
-    });
-    //const client = createClient({ url: 'redis://localhost:6379' });
+    const client = redisClient;
     await client.connect();
 
     try {
