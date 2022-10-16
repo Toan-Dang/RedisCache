@@ -1,5 +1,5 @@
 import { redisClient } from './constanst';
-import {  Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 //import { Cache } from 'cache-manager';
 import Redis from 'ioredis';
 import { PrismaService } from './prisma/prisma.service';
@@ -26,6 +26,7 @@ export class AppService {
       await redis.disconnect();
       return product;
     } catch (error) {
+      await redis.disconnect();
       return error;
     }
   }

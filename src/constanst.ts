@@ -1,3 +1,4 @@
+import e from 'express';
 import { createClient } from 'redis';
 
 export const redisClient = createClient({

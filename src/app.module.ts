@@ -6,6 +6,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as redisStore from 'cache-manager-redis-store';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { SearchModule } from './search/search.module';
+import { HomeModule } from './home/home.module';
+import { ProductModule } from './product/product.module';
+import { CategoryModule } from './category/category.module';
 import * as redis from 'redis';
 
 @Module({
@@ -20,6 +23,9 @@ import * as redis from 'redis';
     // }),
     PrismaModule,
     SearchModule,
+    HomeModule,
+    ProductModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [
