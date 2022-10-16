@@ -12,7 +12,7 @@ export class AppService {
 
   async getAllProduct(str = 'all') {
     const redis = createClient({
-      url: 'redis://default:KeISWjEGQQSTgzYIXdoLpq4U9cKzjqBx@redis-13748.c61.us-east-1-3.ec2.cloud.redislabs.com:13748',
+      url: 'redis://default:wUpy2mKz0vCWHKYCJVcaaU4Clo8yDyQX@redis-19970.c9.us-east-1-2.ec2.cloud.redislabs.com:19970',
       socket: {
         connectTimeout: 50000,
       },
