@@ -20,6 +20,11 @@ export class ProductController {
     return this.productService.create(createProductDto);
   }
 
+  @Post('/redis')
+  addRedis() {
+    return this.productService.addRedisProduct();
+  }
+
   @Get('phone')
   getPhone() {
     return this.productService.getPhone();

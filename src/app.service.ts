@@ -1,3 +1,4 @@
+import { UpdateProductDto } from './product/dto/update-product.dto';
 import { redisClient } from './constanst';
 import { Injectable } from '@nestjs/common';
 //import { Cache } from 'cache-manager';
@@ -25,6 +26,23 @@ export class AppService {
       await redis.json.SET(str, '$', product);
       await redis.disconnect();
       return product;
+    } catch (error) {
+      await redis.disconnect();
+      return error;
+    }
+  }
+
+  async addRedisProduct() {
+    const redis = redisClient;
+    await redis.connect();
+
+    try {
+      const product = await this.prisma.product.findMany({});
+      for (let pro of product) {
+        await redis.json.SET(pro.id, '$', pro);
+      }
+      await redis.disconnect();
+      return;
     } catch (error) {
       await redis.disconnect();
       return error;

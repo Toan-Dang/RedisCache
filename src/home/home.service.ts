@@ -1,10 +1,22 @@
+import { CategoryService } from './../category/category.service';
 import { Injectable } from '@nestjs/common';
 import { redisClient } from 'src/constanst';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class HomeService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private categoryService: CategoryService,
+  ) {}
+
+  async getHome() {
+    const hotSale = await this.getHotSale();
+    const phoneHot = await this.getPhoneHot();
+    const lapHot = await this.getLapHot();
+    const category = await this.categoryService.getAllCategory();
+    return { hotSale, phoneHot, lapHot, category };
+  }
 
   async getHotSale() {
     const redis = redisClient;

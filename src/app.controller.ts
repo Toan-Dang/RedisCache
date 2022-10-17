@@ -5,6 +5,7 @@ import {
   Get,
   UseInterceptors,
   CacheInterceptor,
+  Post,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 //@UseInterceptors(CacheInterceptor)
@@ -34,4 +35,6 @@ export class AppController {
   getAutoCaching() {
     return this.fakeModel;
   }
+
+ 
 }

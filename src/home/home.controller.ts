@@ -5,6 +5,11 @@ import { HomeService } from './home.service';
 export class HomeController {
   constructor(private readonly homeService: HomeService) {}
 
+  @Get()
+  getHome(){
+    return this.homeService.getHome();
+  }
+
   @Get('hotsale')
   getHotSale() {
     return this.homeService.getHotSale();

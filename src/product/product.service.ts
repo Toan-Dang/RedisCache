@@ -1,18 +1,45 @@
+import { AppService } from './../app.service';
 import { Injectable } from '@nestjs/common';
 import { redisClient } from 'src/constanst';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductService {
   constructor(private prisma: PrismaService) {}
 
   async create(createProductDto: CreateProductDto) {
-    await this.prisma.product.create({
-      data: createProductDto,
-    });
-    return 'This action adds a new product';
+    const redis = redisClient;
+    await redis.connect();
+    try {
+      const productNew = await this.prisma.product.create({
+        data: createProductDto,
+      });
+      await redis.flushAll();
+      await this.addRedisProduct();
+      await redis.disconnect();
+      return 'This action adds a new product';
+    } catch (error) {
+      await redis.disconnect();
+      return error;
+    }
+  }
+
+  async addRedisProduct() {
+    const redis = redisClient;
+    await redis.connect();
+
+    try {
+      const product = await this.prisma.product.findMany({});
+      for (let pro of product) {
+        await redis.json.SET(pro.id, '$', pro);
+      }
+      await redis.disconnect();
+      return;
+    } catch (error) {
+      await redis.disconnect();
+      return error;
+    }
   }
 
   async getProductbyID(proid: string) {
